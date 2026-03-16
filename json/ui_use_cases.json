@@ -1,0 +1,596 @@
+[
+  {
+    "module": "登录模块",
+    "use_case_id": "TC-LOGIN-01",
+    "func_desc": "正常登录天翼云电脑",
+    "precondition": null,
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "截图发送给视觉模型，获取账号输入框的坐标x,y；"
+      },
+      {
+        "id": 2,
+        "value": "点击输入框，输入账号：sycg001#918534；"
+      },
+      {
+        "id": 3,
+        "value": "截图发送给视觉模型，获取密码输入框的坐标x,y；"
+      },
+      {
+        "id": 4,
+        "value": "点击输入框，输入密码：Zaq!147@；"
+      },
+      {
+        "id": 5,
+        "value": "截图发送给视觉模型， 定位'安全登录'按钮的坐标x,y；"
+      },
+      {
+        "id": 6,
+        "value": "点击按钮；"
+      },
+      {
+        "id": 7,
+        "value": "等待3秒；"
+      },
+      {
+        "id": 8,
+        "value": "点击‘下次再说’按钮；"
+      },
+      {
+        "id": 9,
+        "value": "等待20秒；"
+      },
+      {
+        "id": 10,
+        "value": "截图桌面发送截图给视觉模型，询问'是否出现桌面图标/任务栏'"
+      }
+    ],
+    "expect_result": "视觉模型判断桌面正常加载，返回True",
+    "postcondition": "无"
+  },
+  {
+    "module": "网络模块",
+    "use_case_id": "TC-NET-01",
+    "func_desc": "查看网络连接状态",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "打开网络状态查看界面（如系统托盘网络图标）；"
+      },
+      {
+        "id": 2,
+        "value": "截图发送给视觉模型，获取'网络状态'区域坐标；"
+      },
+      {
+        "id": 3,
+        "value": "截图网络状态界面；"
+      },
+      {
+        "id": 4,
+        "value": "发送截图给视觉模型，询问'是否显示已连接'"
+      }
+    ],
+    "expect_result": "模型返回网络状态为已连接",
+    "postcondition": "无"
+  },
+  {
+    "module": "网络模块",
+    "use_case_id": "TC-NET-02",
+    "func_desc": "测试网络速度",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "打开Chrome浏览器；"
+      },
+      {
+        "id": 2,
+        "value": "访问网速测试网站（如 speedtest.net）；"
+      },
+      {
+        "id": 3,
+        "value": "定位'开始测试'按钮并点击；"
+      },
+      {
+        "id": 4,
+        "value": "等待测试完成（约1分钟）；"
+      },
+      {
+        "id": 5,
+        "value": "截图测试结果页面；"
+      },
+      {
+        "id": 6,
+        "value": "发送截图给视觉模型，询问'是否显示下载/上传速度'"
+      }
+    ],
+    "expect_result": "模型返回有速度数值显示，且数值合理",
+    "postcondition": "关闭浏览器"
+  },
+  {
+    "module": "基础交互",
+    "use_case_id": "TC-INPUT-01",
+    "func_desc": "鼠标点击（打开开始菜单）",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "截图桌面，发送给视觉模型获取'开始按钮'坐标；"
+      },
+      {
+        "id": 2,
+        "value": "pyautogui.click(x, y) 点击开始按钮；"
+      },
+      {
+        "id": 3,
+        "value": "等待1秒，截图屏幕；"
+      },
+      {
+        "id": 4,
+        "value": "发送截图给视觉模型，询问'是否出现开始菜单'"
+      }
+    ],
+    "expect_result": "模型返回开始菜单已弹出",
+    "postcondition": "无"
+  },
+  {
+    "module": "基础交互",
+    "use_case_id": "TC-INPUT-02",
+    "func_desc": "键盘输入（记事本输入文字）",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "打开记事本程序；"
+      },
+      {
+        "id": 2,
+        "value": "截图记事本窗口，发送给视觉模型获取'文本输入区域'坐标；"
+      },
+      {
+        "id": 3,
+        "value": "pyautogui.click(x, y) 点击文本区域；"
+      },
+      {
+        "id": 4,
+        "value": "pyautogui.typewrite('Hello World!') 输入文字；"
+      },
+      {
+        "id": 5,
+        "value": "截图记事本窗口；"
+      },
+      {
+        "id": 6,
+        "value": "发送截图给视觉模型，询问'是否显示输入的文字'"
+      }
+    ],
+    "expect_result": "模型返回文本区域显示'Hello World!'",
+    "postcondition": "关闭记事本，不保存"
+  },
+  {
+    "module": "应用软件",
+    "use_case_id": "TC-APP-01",
+    "func_desc": "打开文件资源管理器",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "截图桌面，发送给视觉模型获取'文件资源管理器图标'坐标；"
+      },
+      {
+        "id": 2,
+        "value": "pyautogui.doubleClick(x, y) 双击打开；"
+      },
+      {
+        "id": 3,
+        "value": "等待2秒，截图屏幕；"
+      },
+      {
+        "id": 4,
+        "value": "发送截图给视觉模型，询问'是否出现文件资源管理器窗口'"
+      }
+    ],
+    "expect_result": "模型返回文件资源管理器窗口已打开",
+    "postcondition": "关闭文件资源管理器"
+  },
+  {
+    "module": "应用软件",
+    "use_case_id": "TC-APP-02",
+    "func_desc": "打开命令提示符（控制台）",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "通过开始菜单或搜索打开命令提示符；"
+      },
+      {
+        "id": 2,
+        "value": "截图屏幕，发送给视觉模型获取'命令提示符窗口'区域；"
+      },
+      {
+        "id": 3,
+        "value": "等待1秒，截图窗口；"
+      },
+      {
+        "id": 4,
+        "value": "发送截图给视觉模型，询问'是否显示命令提示符界面'"
+      }
+    ],
+    "expect_result": "模型返回命令提示符窗口已打开",
+    "postcondition": "关闭命令提示符"
+  },
+  {
+    "module": "应用软件",
+    "use_case_id": "TC-APP-03",
+    "func_desc": "打开WPS文字",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "通过开始菜单或桌面快捷方式打开WPS文字；"
+      },
+      {
+        "id": 2,
+        "value": "等待3秒，截图屏幕；"
+      },
+      {
+        "id": 3,
+        "value": "发送截图给视觉模型，询问'是否显示WPS文字界面'"
+      }
+    ],
+    "expect_result": "模型返回WPS文字界面已打开",
+    "postcondition": "关闭WPS文字"
+  },
+  {
+    "module": "应用软件",
+    "use_case_id": "TC-APP-04",
+    "func_desc": "打开Chrome浏览器",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "通过开始菜单或桌面快捷方式打开Chrome浏览器；"
+      },
+      {
+        "id": 2,
+        "value": "等待3秒，截图屏幕；"
+      },
+      {
+        "id": 3,
+        "value": "发送截图给视觉模型，询问'是否显示Chrome浏览器窗口'"
+      }
+    ],
+    "expect_result": "模型返回Chrome浏览器窗口已打开",
+    "postcondition": "关闭Chrome浏览器"
+  },
+  {
+    "module": "应用软件",
+    "use_case_id": "TC-APP-05",
+    "func_desc": "打开微信",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "通过开始菜单或桌面快捷方式打开微信；"
+      },
+      {
+        "id": 2,
+        "value": "等待3秒，截图屏幕；"
+      },
+      {
+        "id": 3,
+        "value": "发送截图给视觉模型，询问'是否显示微信登录界面或主界面'"
+      }
+    ],
+    "expect_result": "模型返回微信界面已打开",
+    "postcondition": "关闭微信"
+  },
+  {
+    "module": "应用软件",
+    "use_case_id": "TC-APP-06",
+    "func_desc": "打开QQ",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "通过开始菜单或桌面快捷方式打开QQ；"
+      },
+      {
+        "id": 2,
+        "value": "等待3秒，截图屏幕；"
+      },
+      {
+        "id": 3,
+        "value": "发送截图给视觉模型，询问'是否显示QQ登录界面或主界面'"
+      }
+    ],
+    "expect_result": "模型返回QQ界面已打开",
+    "postcondition": "关闭QQ"
+  },
+  {
+    "module": "应用软件",
+    "use_case_id": "TC-APP-07",
+    "func_desc": "打开钉钉",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "通过开始菜单或桌面快捷方式打开钉钉；"
+      },
+      {
+        "id": 2,
+        "value": "等待3秒，截图屏幕；"
+      },
+      {
+        "id": 3,
+        "value": "发送截图给视觉模型，询问'是否显示钉钉登录界面或主界面'"
+      }
+    ],
+    "expect_result": "模型返回钉钉界面已打开",
+    "postcondition": "关闭钉钉"
+  },
+  {
+    "module": "多媒体",
+    "use_case_id": "TC-MEDIA-01",
+    "func_desc": "查看本地图片",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "打开文件资源管理器，定位到测试图片；"
+      },
+      {
+        "id": 2,
+        "value": "双击打开图片；"
+      },
+      {
+        "id": 3,
+        "value": "等待2秒，截图图片查看器窗口；"
+      },
+      {
+        "id": 4,
+        "value": "发送截图给视觉模型，询问'是否显示图片内容'"
+      }
+    ],
+    "expect_result": "模型返回图片正常显示",
+    "postcondition": "关闭图片查看器"
+  },
+  {
+    "module": "多媒体",
+    "use_case_id": "TC-MEDIA-02",
+    "func_desc": "播放B站视频",
+    "precondition": "TC-LOGIN-01,TC-APP-04",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "打开Chrome浏览器，访问 bilibili.com；"
+      },
+      {
+        "id": 2,
+        "value": "定位搜索框，输入'测试视频'并搜索；"
+      },
+      {
+        "id": 3,
+        "value": "定位第一个视频封面，点击播放；"
+      },
+      {
+        "id": 4,
+        "value": "等待10秒，截图播放器区域；"
+      },
+      {
+        "id": 5,
+        "value": "发送截图给视觉模型，询问'视频是否正在播放（画面变化/播放按钮状态）'"
+      }
+    ],
+    "expect_result": "模型判断视频正在播放，返回True",
+    "postcondition": "关闭浏览器"
+  },
+  {
+    "module": "文件管理",
+    "use_case_id": "TC-FILE-01",
+    "func_desc": "创建文件夹",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "在桌面空白处右键点击（通过视觉定位桌面空白区域，模拟右键）；"
+      },
+      {
+        "id": 2,
+        "value": "在右键菜单中定位'新建'->'文件夹'；"
+      },
+      {
+        "id": 3,
+        "value": "点击后等待文件夹出现；"
+      },
+      {
+        "id": 4,
+        "value": "截图桌面；"
+      },
+      {
+        "id": 5,
+        "value": "发送截图给视觉模型，询问'桌面是否出现名为'新建文件夹'的图标'"
+      }
+    ],
+    "expect_result": "模型返回存在新建文件夹",
+    "postcondition": "删除该文件夹"
+  },
+  {
+    "module": "文件管理",
+    "use_case_id": "TC-FILE-02",
+    "func_desc": "创建文本文件",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "在桌面空白处右键点击；"
+      },
+      {
+        "id": 2,
+        "value": "在右键菜单中定位'新建'->'文本文档'；"
+      },
+      {
+        "id": 3,
+        "value": "点击后等待文件出现；"
+      },
+      {
+        "id": 4,
+        "value": "截图桌面；"
+      },
+      {
+        "id": 5,
+        "value": "发送截图给视觉模型，询问'桌面是否出现名为'新建文本文档.txt'的图标'"
+      }
+    ],
+    "expect_result": "模型返回存在新建文本文档",
+    "postcondition": "删除该文件"
+  },
+  {
+    "module": "文件管理",
+    "use_case_id": "TC-FILE-03",
+    "func_desc": "重命名文件/文件夹",
+    "precondition": "TC-LOGIN-01，TC-FILE-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "右键点击'新建文件夹'；"
+      },
+      {
+        "id": 2,
+        "value": "在右键菜单中定位'重命名'；"
+      },
+      {
+        "id": 3,
+        "value": "点击后输入'测试文件夹'，按回车；"
+      },
+      {
+        "id": 4,
+        "value": "截图桌面；"
+      },
+      {
+        "id": 5,
+        "value": "发送截图给视觉模型，询问'桌面是否出现名为'测试文件夹'的图标'"
+      }
+    ],
+    "expect_result": "模型返回存在重命名后的文件夹",
+    "postcondition": "删除该文件夹"
+  },
+  {
+    "module": "文件管理",
+    "use_case_id": "TC-FILE-04",
+    "func_desc": "移动文件/文件夹",
+    "precondition": "TC-LOGIN-01，TC-FILE-02",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "在源窗口选中测试文件；"
+      },
+      {
+        "id": 2,
+        "value": "拖拽到目标窗口的指定文件夹；"
+      },
+      {
+        "id": 3,
+        "value": "截图目标文件夹；"
+      },
+      {
+        "id": 4,
+        "value": "发送截图给视觉模型，询问'目标文件夹中是否出现测试文件'"
+      }
+    ],
+    "expect_result": "模型返回文件已移动到目标位置",
+    "postcondition": "恢复文件原位"
+  },
+  {
+    "module": "文件管理",
+    "use_case_id": "TC-FILE-05",
+    "func_desc": "删除文件/文件夹",
+    "precondition": "TC-LOGIN-01，TC-FILE-02",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "右键点击测试文件；"
+      },
+      {
+        "id": 2,
+        "value": "在右键菜单中定位'删除'；"
+      },
+      {
+        "id": 3,
+        "value": "点击确认删除；"
+      },
+      {
+        "id": 4,
+        "value": "截图桌面；"
+      },
+      {
+        "id": 5,
+        "value": "发送截图给视觉模型，询问'桌面是否不再显示该文件'"
+      }
+    ],
+    "expect_result": "模型返回文件已删除",
+    "postcondition": "无"
+  },
+  {
+    "module": "文件管理",
+    "use_case_id": "TC-FILE-06",
+    "func_desc": "下载文件到云电脑",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "打开Chrome浏览器，访问测试文件下载链接；"
+      },
+      {
+        "id": 2,
+        "value": "点击下载按钮；"
+      },
+      {
+        "id": 3,
+        "value": "等待下载完成；"
+      },
+      {
+        "id": 4,
+        "value": "截图下载文件夹；"
+      },
+      {
+        "id": 5,
+        "value": "发送截图给视觉模型，询问'下载文件夹中是否出现测试文件'"
+      }
+    ],
+    "expect_result": "模型返回文件已下载",
+    "postcondition": "删除下载的文件"
+  },
+  {
+    "module": "浏览器",
+    "use_case_id": "TC-BROWSER-01",
+    "func_desc": "访问网站并浏览",
+    "precondition": "TC-LOGIN-01",
+    "use_case_steps": [
+      {
+        "id": 1,
+        "value": "打开Chrome浏览器；"
+      },
+      {
+        "id": 2,
+        "value": "定位地址栏，输入'www.baidu.com'并回车；"
+      },
+      {
+        "id": 3,
+        "value": "等待页面加载完成；"
+      },
+      {
+        "id": 4,
+        "value": "截图浏览器窗口；"
+      },
+      {
+        "id": 5,
+        "value": "发送截图给视觉模型，询问'页面是否包含百度logo或搜索框'"
+      }
+    ],
+    "expect_result": "模型判断页面正常加载",
+    "postcondition": "关闭浏览器"
+  }
+]
